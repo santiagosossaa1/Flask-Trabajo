@@ -7,5 +7,5 @@ python app.py
 ```
 
 Usuarios demo:
-- admin@facturas.com / admin
-- usuario@facturas.com / usuario
+- administrador@facturas.com / admin
+- usuario@facturas.com / user

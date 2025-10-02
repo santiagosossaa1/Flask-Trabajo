@@ -514,13 +514,13 @@ def create_app():
     with app.app_context():
         db.create_all()
 
-        if not User.query.filter_by(email="admin@facturas.com").first():
-            admin = User(email="admin@facturas.com", role="admin")
+        if not User.query.filter_by(email="administrador@facturas.com").first():
+            admin = User(email="administrador@facturas.com", role="admin")
             admin.set_password("admin")
             db.session.add(admin)
         if not User.query.filter_by(email="usuario@facturas.com").first():
             user = User(email="usuario@facturas.com", role="user")
-            user.set_password("usuario")
+            user.set_password("user")
             db.session.add(user)
 
         if not Cliente.query.first():
@@ -551,5 +551,5 @@ if __name__ == "__main__":
             db.session.commit()
             print("Base reiniciada (se conservaron usuarios).")
     else:
-        print("Flask en http://127.0.0.1:5000  |  Usuarios demo: admin@facturas.com/admin  ·  usuario@facturas.com/usuario")
+        print("Flask en http://127.0.0.1:5000  |  Usuarios demo: administrador@facturas.com/admin  ·  usuario@facturas.com/user")
         app.run(debug=True)
