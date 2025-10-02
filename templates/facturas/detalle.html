@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Factura #{{ f.id }}{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-10">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Factura #{{ f.id }}</h3></div>
+      <div class="card-body">
+        <p><strong>Cliente:</strong> {{ f.cliente.nombre if f.cliente else '—' }}<br>
+           <strong>Fecha:</strong> {{ f.fecha.strftime('%Y-%m-%d %H:%M') }}</p>
+
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr><th>Producto</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th></tr>
+            </thead>
+            <tbody>
+              {% for d in f.detalles %}
+                <tr>
+                  <td>{{ d.producto.descripcion if d.producto else '—' }}</td>
+                  <td>{{ d.cantidad }}</td>
+                  <td>${{ "{:,.2f}".format(d.precio_unitario or 0) }}</td>
+                  <td>${{ "{:,.2f}".format(d.subtotal or 0) }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" class="text-right font-weight-bold">TOTAL</td>
+                <td class="font-weight-bold">${{ "{:,.2f}".format(f.total or 0) }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <a class="btn btn-outline-primary" href="{{ url_for('facturas_nueva') }}">➕ Nueva factura</a>
+        <a class="btn btn-secondary" href="{{ url_for('index') }}">Inicio</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

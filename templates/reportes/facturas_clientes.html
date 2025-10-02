@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Reporte: Facturas por cliente{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Facturas por cliente</h3></div>
+      <div class="card-body">
+        <form class="form-inline mb-3" method="get" action="{{ url_for('reportes_facturas_por_cliente') }}">
+          <label class="mr-2">Cliente</label>
+          <select class="form-control mr-2" name="cliente_id" required>
+            <option value="">-- Selecciona --</option>
+            {% for c in clientes %}
+              <option value="{{ c.id }}" {% if filtros.cliente_id == c.id %}selected{% endif %}>{{ c.nombre }}</option>
+            {% endfor %}
+          </select>
+
+          <label class="mr-2">Desde</label>
+          <input class="form-control mr-2" type="date" name="desde" value="{{ filtros.desde }}">
+          <label class="mr-2">Hasta</label>
+          <input class="form-control mr-2" type="date" name="hasta" value="{{ filtros.hasta }}">
+          <button class="btn btn-primary mr-2" type="submit">Filtrar</button>
+          <a class="btn btn-secondary" href="{{ url_for('reportes_facturas_por_cliente') }}">Limpiar</a>
+        </form>
+
+        {% if filtros.cliente_id %}
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr><th>#</th><th>Fecha</th><th>Total</th><th>Acciones</th></tr>
+              </thead>
+              <tbody>
+                {% for f in facturas %}
+                  <tr>
+                    <td>{{ f.id }}</td>
+                    <td>{{ f.fecha.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>${{ "{:,.2f}".format(f.total or 0) }}</td>
+                    <td><a class="btn btn-sm btn-outline-info" href="{{ url_for('facturas_detalle', factura_id=f.id) }}">Ver</a></td>
+                  </tr>
+                {% else %}
+                  <tr><td colspan="4" class="text-center text-muted">Sin facturas para ese cliente / rango.</td></tr>
+                {% endfor %}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2" class="text-right font-weight-bold">TOTAL</td>
+                  <td colspan="2" class="font-weight-bold">${{ "{:,.2f}".format(total or 0) }}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        {% else %}
+          <p class="text-muted">Selecciona un cliente para ver sus facturas.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

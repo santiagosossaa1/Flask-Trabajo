@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Clientes{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">Clientes</h3>
+        <a class="btn btn-primary" href="{{ url_for('clientes_nuevo') }}"><i class="fas fa-plus mr-1"></i>Nuevo</a>
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-striped mb-0">
+          <thead>
+            <tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th style="width:200px">Acciones</th></tr>
+          </thead>
+          <tbody>
+            {% for c in clientes %}
+              <tr>
+                <td>{{ c.id }}</td>
+                <td>{{ c.nombre }}</td>
+                <td>{{ c.email or '' }}</td>
+                <td>{{ c.telefono or '' }}</td>
+                <td>
+                  <a class="btn btn-sm btn-outline-info" href="{{ url_for('clientes_editar', cliente_id=c.id) }}">Editar</a>
+                  <form action="{{ url_for('clientes_eliminar', cliente_id=c.id) }}" method="post" style="display:inline"
+                        onsubmit="return confirm('¿Eliminar cliente {{ c.nombre }}?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+                  </form>
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="5" class="text-center text-muted">No hay clientes cargados.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

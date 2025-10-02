@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}403 - Prohibido{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="callout callout-danger">
+      <h5>403 - Acceso denegado</h5>
+      <p>No tenés permisos para ver esta página.</p>
+      <a class="btn btn-outline-secondary" href="{{ url_for('index') }}">Volver al inicio</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

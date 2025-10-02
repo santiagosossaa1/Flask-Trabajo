@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Facturas{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Facturas</h3></div>
+      <div class="card-body">
+        <form class="form-inline mb-3" method="get" action="{{ url_for('facturas_list') }}">
+          <label class="mr-2">Cliente</label>
+          <select class="form-control mr-2" name="cliente_id">
+            <option value="">-- Todos --</option>
+            {% for c in clientes %}
+              <option value="{{ c.id }}" {% if filtros.cliente_id == c.id %}selected{% endif %}>{{ c.nombre }}</option>
+            {% endfor %}
+          </select>
+
+          <label class="mr-2">Desde</label>
+          <input class="form-control mr-2" type="date" name="desde" value="{{ filtros.desde }}">
+          <label class="mr-2">Hasta</label>
+          <input class="form-control mr-2" type="date" name="hasta" value="{{ filtros.hasta }}">
+          <button class="btn btn-primary mr-2" type="submit">Filtrar</button>
+          <a class="btn btn-secondary" href="{{ url_for('facturas_list') }}">Limpiar</a>
+        </form>
+
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr><th>#</th><th>Fecha</th><th>Cliente</th><th>Total</th><th>Acciones</th></tr>
+            </thead>
+            <tbody>
+              {% for f in facturas %}
+                <tr>
+                  <td>{{ f.id }}</td>
+                  <td>{{ f.fecha.strftime('%Y-%m-%d %H:%M') }}</td>
+                  <td>{{ f.cliente.nombre if f.cliente else '—' }}</td>
+                  <td>${{ "{:,.2f}".format(f.total or 0) }}</td>
+                  <td><a class="btn btn-sm btn-outline-info" href="{{ url_for('facturas_detalle', factura_id=f.id) }}">Ver</a></td>
+                </tr>
+              {% else %}
+                <tr><td colspan="5" class="text-center text-muted">No hay facturas con esos filtros.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

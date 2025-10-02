@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Inicio · Sistema de facturación{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Acciones rápidas</h3></div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+            <a class="btn btn-outline-primary btn-block" href="{{ url_for('facturas_nueva') }}">
+              <i class="fas fa-file-invoice-dollar mr-1"></i> Nueva factura
+            </a>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+            <a class="btn btn-outline-secondary btn-block" href="{{ url_for('facturas_list') }}">
+              <i class="fas fa-folder-open mr-1"></i> Listado de facturas
+            </a>
+          </div>
+          {% if current_user.role == 'admin' %}
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+            <a class="btn btn-outline-info btn-block" href="{{ url_for('clientes_list') }}">
+              <i class="fas fa-user mr-1"></i> Clientes (admin)
+            </a>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+            <a class="btn btn-outline-info btn-block" href="{{ url_for('productos_list') }}">
+              <i class="fas fa-box mr-1"></i> Productos (admin)
+            </a>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+            <a class="btn btn-outline-success btn-block" href="{{ url_for('reportes_ventas') }}">
+              <i class="fas fa-chart-line mr-1"></i> Reporte ventas (admin)
+            </a>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+            <a class="btn btn-outline-success btn-block" href="{{ url_for('reportes_facturas_por_cliente') }}">
+              <i class="fas fa-users mr-1"></i> Reporte por cliente (admin)
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
