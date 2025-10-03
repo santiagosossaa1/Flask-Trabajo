@@ -1,5 +1,29 @@
+# ==================================
+# Flask-Trabajo · .gitignore
+# ==================================
+
+# Entornos virtuales
+.venv/
+env/
+venv/
+
+# Archivos de base de datos y carpeta de instancia
+instance/
+*.db
+
+# Archivos compilados/temporales de Python
 __pycache__/
 *.pyc
-instance/
-.env
+*.pyo
+*.pyd
+
+# Archivos de logs
+*.log
+
+# Configuración local de editores/IDE
 .vscode/
+.idea/
+
+# Archivos temporales de sistema operativo
+.DS_Store
+Thumbs.db
